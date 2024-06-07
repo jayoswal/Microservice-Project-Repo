@@ -12,7 +12,7 @@ services:
       - "3306:3306"
     networks:
       - app-network-external
-    restart: unless-stopped
+    restart: no
   phpmyadmin-container:
     container_name: phpmyadmin-container
     image: phpmyadmin:latest

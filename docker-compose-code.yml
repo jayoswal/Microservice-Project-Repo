@@ -32,6 +32,17 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - company-microservice-container
+  api-gateway-container:
+    image: jayoswal20/api-gateway:1.0.0
+    container_name: api-gateway-container
+    ports:
+      - "8084:8084"
+    networks:
+      - app-network-external
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - job-microservice-container
 
 networks:
   app-network-external:
