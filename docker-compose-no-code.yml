@@ -40,6 +40,20 @@ services:
       - phpmyadmin-container
     volumes:
       - rabbitmq-container:/var/lib/rabbitmq
+  eureka-registry-server-container:
+    image: jayoswal20/eureka-registry-server:1.0.0
+    container_name: eureka-registry-server-container
+    ports:
+      - "8761:8761"
+    networks:
+      - app-network-external
+    depends_on:
+      - rabbitmq-container
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://eureka-registry-server-container:8761/actuator/health || exit 1" ]
+      interval: 30s
+      timeout: 6s
+      retries: 5
   config-server-container:
     image: jayoswal20/config-server:1.0.0
     container_name: config-server-container
@@ -50,8 +64,11 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - rabbitmq-container
+      eureka-registry-server-container:
+        condition: service_healthy
 
+# Create network first
+# docker network create --driver bridge app-network-external
 networks:
   app-network-external:
     external: true
