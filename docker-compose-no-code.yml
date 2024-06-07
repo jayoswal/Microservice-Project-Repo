@@ -1,0 +1,61 @@
+version: '3.1'
+
+services:
+  mysql-container:
+    container_name: mysql-container
+    image: mysql:oraclelinux9
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql-container:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network-external
+    restart: unless-stopped
+  phpmyadmin-container:
+    container_name: phpmyadmin-container
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: mysql-container
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - phpmyadmin-container:/etc/phpmyadmin
+    ports:
+      - "5050:80"
+    networks:
+      - app-network-external
+    restart: unless-stopped
+    depends_on:
+      - mysql-container
+  rabbitmq-container:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-container
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network-external
+    depends_on:
+      - phpmyadmin-container
+    volumes:
+      - rabbitmq-container:/var/lib/rabbitmq
+  config-server-container:
+    image: jayoswal20/config-server:1.0.0
+    container_name: config-server-container
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network-external
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - rabbitmq-container
+
+networks:
+  app-network-external:
+    external: true
+volumes:
+  mysql-container:
+  phpmyadmin-container:
+  rabbitmq-container:
