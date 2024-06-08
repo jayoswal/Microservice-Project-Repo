@@ -44,25 +44,25 @@
 		</dependency>
 
 <!--		ZipKin Below-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>io.micrometer</groupId>-->
-<!--			<artifactId>micrometer-tracing-bridge-brave</artifactId>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>io.zipkin.reporter2</groupId>-->
-<!--			<artifactId>zipkin-reporter-brave</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-brave</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.zipkin.reporter2</groupId>
+			<artifactId>zipkin-reporter-brave</artifactId>
+		</dependency>
 
-		<!--		Dependency for feign micrometer so that feign's requests can also be traced by micrometer-->
-<!--		<dependency>-->
-<!--			<groupId>io.github.openfeign</groupId>-->
-<!--			<artifactId>feign-micrometer</artifactId>-->
-<!--		</dependency>-->
+<!--				Dependency for feign micrometer so that feign's requests can also be traced by micrometer-->
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-micrometer</artifactId>
+		</dependency>
 
 		<!--		Rabbit MQ Below-->
 		<dependency>

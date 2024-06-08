@@ -40,6 +40,15 @@ services:
       - phpmyadmin-container
     volumes:
       - rabbitmq-container:/var/lib/rabbitmq
+  zipkin-container:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin-container
+    ports:
+      - "9411:9411"
+    networks:
+      - app-network-external
+    depends_on:
+      - rabbitmq-container
   eureka-registry-server-container:
     image: jayoswal20/eureka-registry-server:1.0.0
     container_name: eureka-registry-server-container
@@ -48,7 +57,7 @@ services:
     networks:
       - app-network-external
     depends_on:
-      - rabbitmq-container
+      - zipkin-container
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://eureka-registry-server-container:8761/actuator/health || exit 1" ]
       interval: 30s
@@ -67,11 +76,15 @@ services:
       eureka-registry-server-container:
         condition: service_healthy
 
-# Create network first
+# First create the network app-network-external
+# through docker compose no code file OR
 # docker network create --driver bridge app-network-external
 networks:
   app-network-external:
     external: true
+#networks:
+#  app-network-external:
+#    driver: bridge
 volumes:
   mysql-container:
   phpmyadmin-container:

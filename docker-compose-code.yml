@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   review-microservice-container:
-    image: jayoswal20/review-microservice:1.1.0
+    image: jayoswal20/review-microservice:1.2.0
     container_name: review-microservice-container
     ports:
       - "8083:8083"
@@ -11,7 +11,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
   company-microservice-container:
-    image: jayoswal20/company-microservice:1.1.0
+    image: jayoswal20/company-microservice:1.2.0
     container_name: company-microservice-container
     ports:
       - "8081:8081"
@@ -22,7 +22,7 @@ services:
     depends_on:
       - review-microservice-container
   job-microservice-container:
-    image: jayoswal20/job-microservice:1.2.0
+    image: jayoswal20/job-microservice:1.3.0
     container_name: job-microservice-container
     ports:
       - "8082:8082"
@@ -33,7 +33,7 @@ services:
     depends_on:
       - company-microservice-container
   api-gateway-container:
-    image: jayoswal20/api-gateway:1.0.0
+    image: jayoswal20/api-gateway:1.1.0
     container_name: api-gateway-container
     ports:
       - "8084:8084"
@@ -44,6 +44,9 @@ services:
     depends_on:
       - job-microservice-container
 
+# First create the network app-network-external
+# through docker compose no code file OR
+# docker network create --driver bridge app-network-external
 networks:
   app-network-external:
     external: true
